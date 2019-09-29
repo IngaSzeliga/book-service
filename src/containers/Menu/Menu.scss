@@ -1,0 +1,13 @@
+.menu-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  .button-book {
+    margin-right: 30px;
+  }
+
+  .button-author {
+    margin-left: 30px;
+  }
+}
