@@ -6,7 +6,7 @@ import "./SearchBar.scss";
 
 const SearchBar = () => {
   return (
-    <div className="input-container">
+    <div className="search-bar-component">
       <form>
         <TextField
           InputProps={{
