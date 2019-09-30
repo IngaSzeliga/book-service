@@ -1,0 +1,15 @@
+.nav-bar-container {
+  .toolbar-container {
+    display: flex;
+    justify-content: flex-end;
+
+    .add-author-button {
+      margin-right: 10px;
+    }
+
+    .add-book-button {
+      margin-left: 10px;
+      margin-right: 40px;
+    }
+  }
+}
