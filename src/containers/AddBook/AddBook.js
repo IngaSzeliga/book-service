@@ -46,7 +46,7 @@ const AddBook = props => {
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Add new author
+            Add new book
           </Typography>
           <Button color="inherit" onClick={handleClose}>
             save
