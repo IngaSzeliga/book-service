@@ -21,6 +21,10 @@
     "/api/token": {
       "target": "http://localhost:8888",
       "changeOrigin": true
+    },
+    "/api/authors": {
+      "target": "http://localhost:8888",
+      "changeOrigin": true
     }
   },
   "eslintConfig": {
