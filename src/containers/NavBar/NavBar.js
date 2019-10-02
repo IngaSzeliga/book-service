@@ -4,12 +4,13 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import AddAuthor from "../../containers/AddAuthor";
-import AddBook from "../../containers/AddBook";
+import AddAuthor from "../AddAuthor";
+import AddBook from "../AddBook";
+import ErrorSnackbar from "../../components/ErrorSnackbar";
 import "./NavBar.scss";
 
 class NavBar extends PureComponent {
-  state = { isBookOpen: false, isAuthorOpen: false, token: "" };
+  state = { isBookOpen: false, isAuthorOpen: false, token: "", error: "" };
 
   handleClickBookOpen = () => {
     this.setState({ isBookOpen: true });
@@ -28,15 +29,24 @@ class NavBar extends PureComponent {
   };
 
   handleLogin = () => {
-    axios("api/token").then(result => this.setState({ token: result.data }));
+    axios("api/token")
+      .then(result => this.setState({ token: result.data }))
+      .catch(error => {
+        this.setState({ error: "Sorry, something went wrong" });
+        console.error(error);
+      });
   };
 
   handleLogout = () => {
     this.setState({ token: "" });
   };
 
+  handleCloseError = () => {
+    this.setState({ error: "" });
+  };
+
   render() {
-    const { isBookOpen, isAuthorOpen, token } = this.state;
+    const { isBookOpen, isAuthorOpen, token, error } = this.state;
 
     return (
       <div className="nav-bar-container">
@@ -79,6 +89,12 @@ class NavBar extends PureComponent {
             )}
           </Toolbar>
         </AppBar>
+        {error !== "" ? (
+          <ErrorSnackbar
+            handleCloseError={this.handleCloseError}
+            error={error}
+          />
+        ) : null}
       </div>
     );
   }

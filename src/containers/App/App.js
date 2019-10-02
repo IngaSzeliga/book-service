@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import SearchBar from "../../components/SearchBar";
-import NavBar from "../../components/NavBar";
+import NavBar from "../NavBar";
 import AuthorsContainer from "../AuthorsContainer";
 import BooksContainer from "../BooksContainer";
 import "./App.scss";
