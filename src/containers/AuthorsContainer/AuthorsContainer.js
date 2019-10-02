@@ -20,7 +20,12 @@ class AuthorsContainer extends PureComponent {
       <div className="authors-main-container">
         <div className="authors-container">
           {authors.map(author => (
-            <Author key={author.id} name={author.name} image={author.image} />
+            <Author
+              key={author.id}
+              id={author.id}
+              name={author.name}
+              image={author.image}
+            />
           ))}
         </div>
       </div>
