@@ -1,0 +1,36 @@
+.book-details-container {
+  > div:nth-child(3) {
+    > div:first-child {
+      min-width: 70%;
+    }
+  }
+  .book-details-name-header {
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+
+    .book-details-close-button {
+      padding: 10px;
+      padding-top: 8px;
+      margin-right: 10px;
+      margin-top: -10px;
+    }
+  }
+  .books-header {
+    padding-left: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+  }
+  .book-details-books-component {
+    display: flex;
+    padding: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+
+    .book-details-image {
+      height: 200px;
+      padding-right: 20px;
+    }
+  }
+}
