@@ -1,17 +1,31 @@
-import React from "react";
-import Header from "../../containers/Header";
+import React, { PureComponent } from "react";
+import SearchBar from "../../components/SearchBar";
 import NavBar from "../../components/NavBar";
-import AuthorsContainer from "../AuthorsContainer/AuthorsContainer";
+import AuthorsContainer from "../AuthorsContainer";
+import BooksContainer from "../BooksContainer";
 import "./App.scss";
 
-function App() {
-  return (
-    <div className="App">
-      <NavBar />
-      <Header />
-      <AuthorsContainer />
-    </div>
-  );
+class App extends PureComponent {
+  state = { displayComponent: "authors" };
+
+  handleDisplayComponent = component => {
+    this.setState({ displayComponent: component });
+  };
+
+  render() {
+    const { displayComponent } = this.state;
+    return (
+      <div className="App">
+        <NavBar />
+        <SearchBar handleDisplayComponent={this.handleDisplayComponent} />
+        {displayComponent === "authors" ? (
+          <AuthorsContainer />
+        ) : (
+          <BooksContainer />
+        )}
+      </div>
+    );
+  }
 }
 
 export default App;

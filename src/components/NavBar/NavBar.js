@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from "react";
+import React, { PureComponent } from "react";
 import axios from "axios";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -42,10 +42,10 @@ class NavBar extends PureComponent {
       <div className="nav-bar-container">
         <AppBar position="static">
           <Toolbar className="toolbar-container">
-            <Typography variant="h6"></Typography>
+            <Typography variant="h2">Book Service</Typography>
 
             {token !== "" ? (
-              <Fragment>
+              <div>
                 <Button
                   variant="contained"
                   onClick={this.handleClickAuthorOpen}
@@ -71,7 +71,7 @@ class NavBar extends PureComponent {
                 <Button color="inherit" onClick={this.handleLogout}>
                   Logout
                 </Button>
-              </Fragment>
+              </div>
             ) : (
               <Button color="inherit" onClick={this.handleLogin}>
                 Login

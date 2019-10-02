@@ -25,6 +25,10 @@
     "/api/authors": {
       "target": "http://localhost:8888",
       "changeOrigin": true
+    },
+    "/api/books": {
+      "target": "http://localhost:8888",
+      "changeOrigin": true
     }
   },
   "eslintConfig": {

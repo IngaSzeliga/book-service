@@ -11,6 +11,8 @@ class SearchBar extends PureComponent {
   };
 
   handleChange = event => {
+    const { handleDisplayComponent } = this.props;
+    handleDisplayComponent(event.target.value);
     this.setState({ selectSearch: event.target.value });
   };
 
