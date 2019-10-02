@@ -54,4 +54,4 @@ class Author extends PureComponent {
   }
 }
 
-export default React.memo(Author);
+export default Author;
