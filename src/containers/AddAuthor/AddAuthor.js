@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -28,6 +29,30 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const AddAuthor = props => {
   const { isOpen, handleClose } = props;
   const classes = useStyles();
+
+  let name = "";
+  let image = "";
+
+  const handleNameInput = event => {
+    name = event.target.value;
+  };
+
+  const handleImageInput = event => {
+    image = event.target.value;
+  };
+
+  const handleSave = () => {
+    const authorData = { name: name, image: image };
+    const { token } = props;
+    const config = {
+      headers: { Authorization: token }
+    };
+
+    axios.post("api/authors", authorData, config).then(response => {
+      handleClose();
+    });
+  };
+
   return (
     <Dialog
       fullScreen
@@ -48,7 +73,7 @@ const AddAuthor = props => {
           <Typography variant="h6" className={classes.title}>
             Add new author
           </Typography>
-          <Button color="inherit" onClick={handleClose}>
+          <Button color="inherit" onClick={handleSave}>
             save
           </Button>
         </Toolbar>
@@ -61,6 +86,7 @@ const AddAuthor = props => {
           label="Name"
           type="text"
           fullWidth
+          onChange={handleNameInput}
         />
         <TextField
           margin="dense"
@@ -68,6 +94,7 @@ const AddAuthor = props => {
           label="Image URL"
           type="text"
           fullWidth
+          onChange={handleImageInput}
         />
       </DialogContent>
     </Dialog>

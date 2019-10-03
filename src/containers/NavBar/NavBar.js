@@ -66,6 +66,7 @@ class NavBar extends PureComponent {
                 <AddAuthor
                   isOpen={isAuthorOpen}
                   handleClose={this.handleClickAuthorClose}
+                  token={token}
                 />
                 <Button
                   variant="contained"
