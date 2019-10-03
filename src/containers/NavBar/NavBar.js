@@ -33,7 +33,6 @@ class NavBar extends PureComponent {
       .then(result => this.setState({ token: result.data }))
       .catch(error => {
         this.setState({ error: "Sorry, something went wrong" });
-        console.error(error);
       });
   };
 
@@ -78,6 +77,7 @@ class NavBar extends PureComponent {
                 <AddBook
                   isOpen={isBookOpen}
                   handleClose={this.handleClickBookClose}
+                  token={token}
                 />
                 <Button color="inherit" onClick={this.handleLogout}>
                   Logout

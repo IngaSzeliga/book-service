@@ -1,5 +1,5 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { PureComponent } from "react";
+import axios from "axios";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import TextField from "@material-ui/core/TextField";
@@ -10,83 +10,132 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
-
-const useStyles = makeStyles(theme => ({
-  appBar: {
-    position: "relative"
-  },
-  title: {
-    marginLeft: theme.spacing(2),
-    flex: 1
-  }
-}));
+import "./AddBook.scss";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const AddBook = props => {
-  const { isOpen, handleClose } = props;
-  const classes = useStyles();
-  return (
-    <Dialog
-      fullScreen
-      open={isOpen}
-      onClose={handleClose}
-      TransitionComponent={Transition}
-    >
-      <AppBar className="">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={handleClose}
-            aria-label="close"
-          >
-            <CloseIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Add new book
-          </Typography>
-          <Button color="inherit" onClick={handleClose}>
-            save
-          </Button>
-        </Toolbar>
-      </AppBar>
-      <DialogContent>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Name"
-          type="text"
-          fullWidth
-        />
-        <TextField
-          margin="dense"
-          id="name"
-          label="Author"
-          type="text"
-          fullWidth
-        />
-        <TextField
-          id="standard-multiline-static"
-          label="Description"
-          multiline
-          rows="4"
-          margin="normal"
-          fullWidth
-        />
-        <TextField
-          margin="dense"
-          id="image"
-          label="Image URL"
-          type="text"
-          fullWidth
-        />
-      </DialogContent>
-    </Dialog>
-  );
-};
+class AddBook extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.title = "";
+    this.author = "";
+    this.description = "";
+    this.image = "";
+  }
+  state = { error: "" };
 
-export default React.memo(AddBook);
+  handleTitleInput = event => {
+    this.title = event.target.value;
+  };
+
+  handleAuthorInput = event => {
+    this.author = event.target.value;
+  };
+
+  handleDescriptionInput = event => {
+    this.description = event.target.value;
+  };
+
+  handleImageInput = event => {
+    this.image = event.target.value;
+  };
+
+  handleSave = () => {
+    const bookData = {
+      title: this.title,
+      author: this.author,
+      description: this.description,
+      image: this.image
+    };
+    const { token } = this.props;
+    const config = {
+      headers: { Authorization: token }
+    };
+
+    axios
+      .post("api/books", bookData, config)
+      .then(response => {
+        const { handleClose } = this.props;
+        handleClose();
+      })
+      .catch(error => this.setState({ error: "Author doesn't exist" }));
+  };
+  render() {
+    const { isOpen, handleClose } = this.props;
+    const { error } = this.state;
+
+    return (
+      <Dialog
+        fullScreen
+        open={isOpen}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
+        <AppBar>
+          <Toolbar className="add-book-header-container">
+            <div className="add-book-close-and-title">
+              <IconButton
+                edge="start"
+                color="inherit"
+                onClick={handleClose}
+                aria-label="close"
+              >
+                <CloseIcon />
+              </IconButton>
+              <Typography variant="h6" className="add-book-header">
+                Add new book
+              </Typography>
+            </div>
+
+            <Button color="inherit" onClick={this.handleSave}>
+              save
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <DialogContent className="add-book-input-container">
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Title"
+            type="text"
+            fullWidth
+            onChange={this.handleTitleInput}
+            className="title-input"
+          />
+          <TextField
+            margin="dense"
+            id="name"
+            label="Author"
+            type="text"
+            error={error !== ""}
+            helperText={error}
+            fullWidth
+            onChange={this.handleAuthorInput}
+          />
+          <TextField
+            id="standard-multiline-static"
+            label="Description"
+            multiline
+            rows="4"
+            margin="normal"
+            fullWidth
+            onChange={this.handleDescriptionInput}
+          />
+          <TextField
+            margin="dense"
+            id="image"
+            label="Image URL"
+            type="text"
+            fullWidth
+            onChange={this.handleImageInput}
+          />
+        </DialogContent>
+      </Dialog>
+    );
+  }
+}
+
+export default AddBook;
