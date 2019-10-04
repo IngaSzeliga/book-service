@@ -16,6 +16,14 @@ class SearchBar extends PureComponent {
     this.setState({ selectSearch: event.target.value });
   };
 
+  handleKeyPress = event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const { handleSearch } = this.props;
+      handleSearch(event.target.value);
+    }
+  };
+
   render() {
     const { selectSearch } = this.state;
     return (
@@ -45,6 +53,7 @@ class SearchBar extends PureComponent {
             label="Search"
             margin="normal"
             variant="outlined"
+            onKeyPress={this.handleKeyPress}
           />
         </form>
       </div>

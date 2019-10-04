@@ -1,28 +1,71 @@
 import React, { PureComponent } from "react";
+import axios from "axios";
 import SearchBar from "../../components/SearchBar";
 import NavBar from "../NavBar";
 import AuthorsContainer from "../AuthorsContainer";
 import BooksContainer from "../BooksContainer";
+import { numberOfItemPerPage, mockTotal } from "../../config/constants";
+import PaginationBar from "../../components/PaginationBar";
 import "./App.scss";
 
 class App extends PureComponent {
-  state = { displayComponent: "authors" };
+  state = { displayComponent: "authors", data: [], total: 0 };
+
+  componentDidMount() {
+    const { displayComponent } = this.state;
+    axios(`api/${displayComponent}?limit=${numberOfItemPerPage}`).then(
+      result => {
+        const { data } = result;
+        this.setState({ data, total: mockTotal });
+      }
+    );
+  }
 
   handleDisplayComponent = component => {
     this.setState({ displayComponent: component });
+
+    axios(`api/${component}?limit=${numberOfItemPerPage}`).then(result => {
+      const { data } = result;
+      this.setState({ data, total: mockTotal });
+    });
+  };
+
+  handleSearch = searchValue => {
+    const { displayComponent } = this.state;
+    axios(
+      `api/${displayComponent}?limit=${numberOfItemPerPage}&match=${searchValue}`
+    ).then(result => {
+      const { data } = result;
+
+      this.setState({ data, total: data.length });
+    });
+  };
+
+  changePage = offset => {
+    const { displayComponent } = this.state;
+    axios(
+      `api/${displayComponent}?offset=${offset}&limit=${numberOfItemPerPage}`
+    ).then(result => {
+      const { data } = result;
+      this.setState({ data, total: mockTotal });
+    });
   };
 
   render() {
-    const { displayComponent } = this.state;
+    const { displayComponent, data, total } = this.state;
     return (
       <div className="App">
         <NavBar />
-        <SearchBar handleDisplayComponent={this.handleDisplayComponent} />
+        <SearchBar
+          handleDisplayComponent={this.handleDisplayComponent}
+          handleSearch={this.handleSearch}
+        />
         {displayComponent === "authors" ? (
-          <AuthorsContainer />
+          <AuthorsContainer authors={data} />
         ) : (
-          <BooksContainer />
+          <BooksContainer books={data} />
         )}
+        <PaginationBar changePage={this.changePage} total={total} />
       </div>
     );
   }

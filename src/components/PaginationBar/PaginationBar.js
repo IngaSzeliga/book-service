@@ -16,7 +16,7 @@ class PaginationBar extends PureComponent {
       <Pagination
         limit={numberOfItemPerPage}
         offset={this.state.offset}
-        total={16}
+        total={this.props.total}
         onClick={(e, offset) => this.handleClick(offset)}
       />
     );

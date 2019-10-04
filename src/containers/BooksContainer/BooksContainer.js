@@ -1,49 +1,25 @@
-import React, { PureComponent } from "react";
-import axios from "axios";
+import React from "react";
 import Book from "../../components/Book";
-import { numberOfItemPerPage } from "../../config/constants";
-import PaginationBar from "../../components/PaginationBar";
 import "./BooksContainer.scss";
 
-class BooksContainer extends PureComponent {
-  state = { books: [] };
+const BooksContainer = props => {
+  const { books } = props;
 
-  componentDidMount() {
-    axios(`api/books?limit=${numberOfItemPerPage}`).then(result => {
-      const books = result.data;
-      this.setState({ books });
-    });
-  }
-
-  changePage = offset => {
-    axios(`api/books?offset=${offset}&limit=${numberOfItemPerPage}`).then(
-      result => {
-        const books = result.data;
-        this.setState({ books });
-      }
-    );
-  };
-
-  render() {
-    const { books } = this.state;
-
-    return (
-      <div className="books-main-container">
-        <div className="books-container">
-          {books.map(book => (
-            <Book
-              key={book.id}
-              id={book.id}
-              title={book.title}
-              author={book.author}
-              image={book.image}
-            />
-          ))}
-        </div>
-        <PaginationBar changePage={this.changePage} />
+  return (
+    <div className="books-main-container">
+      <div className="books-container">
+        {books.map(book => (
+          <Book
+            key={book.id}
+            id={book.id}
+            title={book.title}
+            author={book.author}
+            image={book.image}
+          />
+        ))}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-export default BooksContainer;
+export default React.memo(BooksContainer);
