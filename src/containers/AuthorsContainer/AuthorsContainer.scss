@@ -1,9 +1,11 @@
 .authors-main-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin-bottom: 20px;
 
   .authors-container {
-    width: 60%;
+    width: 75%;
+    align-self: center;
+    margin-bottom: 30px;
   }
 }

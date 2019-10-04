@@ -1,17 +1,28 @@
 import React, { PureComponent } from "react";
 import axios from "axios";
 import Book from "../../components/Book";
+import { numberOfItemPerPage } from "../../config/constants";
+import PaginationBar from "../../components/PaginationBar";
 import "./BooksContainer.scss";
 
 class BooksContainer extends PureComponent {
   state = { books: [] };
 
   componentDidMount() {
-    axios("api/books?limit=6").then(result => {
+    axios(`api/books?limit=${numberOfItemPerPage}`).then(result => {
       const books = result.data;
       this.setState({ books });
     });
   }
+
+  changePage = offset => {
+    axios(`api/books?offset=${offset}&limit=${numberOfItemPerPage}`).then(
+      result => {
+        const books = result.data;
+        this.setState({ books });
+      }
+    );
+  };
 
   render() {
     const { books } = this.state;
@@ -29,6 +40,7 @@ class BooksContainer extends PureComponent {
             />
           ))}
         </div>
+        <PaginationBar changePage={this.changePage} />
       </div>
     );
   }
