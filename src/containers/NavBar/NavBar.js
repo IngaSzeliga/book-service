@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import AddAuthor from "../AddAuthor";
 import AddBook from "../AddBook";
 import ErrorSnackbar from "../../components/ErrorSnackbar";
+import SuccessSnackbar from "../../components/SuccessSnackbar/SuccessSnackbar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import NavbarDrawer from "../../components/NavbarDrawer";
@@ -18,7 +19,8 @@ class NavBar extends PureComponent {
     isAuthorOpen: false,
     isMenuOpen: false,
     token: "",
-    error: ""
+    error: "",
+    isSuccess: false
   };
 
   handleClickBookOpen = () => {
@@ -27,6 +29,10 @@ class NavBar extends PureComponent {
 
   handleClickBookClose = () => {
     this.setState({ isBookOpen: false });
+  };
+
+  handleBookSave = () => {
+    this.setState({ isSuccess: true, isBookOpen: false });
   };
 
   handleClickAuthorOpen = () => {
@@ -53,6 +59,10 @@ class NavBar extends PureComponent {
     this.setState({ error: "" });
   };
 
+  handleCloseSuccess = () => {
+    this.setState({ isSuccess: false });
+  };
+
   handleOpenMenu = () => {
     this.setState({ isMenuOpen: true });
   };
@@ -62,7 +72,14 @@ class NavBar extends PureComponent {
   };
 
   render() {
-    const { isBookOpen, isAuthorOpen, isMenuOpen, token, error } = this.state;
+    const {
+      isBookOpen,
+      isAuthorOpen,
+      isMenuOpen,
+      token,
+      error,
+      isSuccess
+    } = this.state;
 
     return (
       <div className="nav-bar-container">
@@ -121,6 +138,7 @@ class NavBar extends PureComponent {
                 <AddBook
                   isOpen={isBookOpen}
                   handleClose={this.handleClickBookClose}
+                  handleBookSave={this.handleBookSave}
                   token={token}
                 />
                 <Button
@@ -147,6 +165,9 @@ class NavBar extends PureComponent {
             handleCloseError={this.handleCloseError}
             error={error}
           />
+        ) : null}
+        {isSuccess ? (
+          <SuccessSnackbar handleCloseSuccess={this.handleCloseSuccess} />
         ) : null}
       </div>
     );

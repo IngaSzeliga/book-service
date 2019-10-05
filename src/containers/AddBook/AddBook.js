@@ -57,8 +57,8 @@ class AddBook extends PureComponent {
     axios
       .post("api/books", bookData, config)
       .then(response => {
-        const { handleClose } = this.props;
-        handleClose();
+        const { handleBookSave } = this.props;
+        handleBookSave();
       })
       .catch(error => this.setState({ error: "Author doesn't exist" }));
   };
