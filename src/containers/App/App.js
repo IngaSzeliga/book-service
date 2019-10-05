@@ -76,11 +76,15 @@ class App extends PureComponent {
         ) : (
           <BooksContainer books={data} />
         )}
-        {isError ? (
-          <ErrorPage />
-        ) : (
+        {isError ? <ErrorPage /> : null}
+        {data.length === 0 && !isError ? (
+          <p className="no-results-text">
+            There are no results that match your search :(
+          </p>
+        ) : null}
+        {data.length !== 0 && !isError ? (
           <PaginationBar changePage={this.changePage} total={total} />
-        )}
+        ) : null}
       </div>
     );
   }

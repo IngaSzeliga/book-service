@@ -1,6 +1,12 @@
 .App {
   text-align: center;
   padding-bottom: 50px;
+
+  .no-results-text {
+    font-family: Roboto;
+    color: #404040;
+    font-weight: 300;
+  }
 }
 
 .App-logo {
