@@ -17,7 +17,7 @@ class App extends PureComponent {
     axios(`api/${displayComponent}?limit=${numberOfItemPerPage}`)
       .then(result => {
         const { data } = result;
-        this.setState({ data, total: mockTotal });
+        this.setState({ data, total: mockTotal, isError: false });
       })
       .catch(error => {
         this.setState({ isError: true });
@@ -30,7 +30,7 @@ class App extends PureComponent {
     axios(`api/${component}?limit=${numberOfItemPerPage}`)
       .then(result => {
         const { data } = result;
-        this.setState({ data, total: mockTotal });
+        this.setState({ data, total: mockTotal, isError: false });
       })
       .catch(error => {
         this.setState({ isError: true });
@@ -41,11 +41,15 @@ class App extends PureComponent {
     const { displayComponent } = this.state;
     axios(
       `api/${displayComponent}?limit=${numberOfItemPerPage}&match=${searchValue}`
-    ).then(result => {
-      const { data } = result;
+    )
+      .then(result => {
+        const { data } = result;
 
-      this.setState({ data, total: data.length });
-    });
+        this.setState({ data, total: data.length, isError: false });
+      })
+      .catch(error => {
+        this.setState({ isError: true });
+      });
   };
 
   changePage = offset => {
