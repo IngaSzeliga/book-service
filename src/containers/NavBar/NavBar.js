@@ -66,7 +66,7 @@ class NavBar extends PureComponent {
 
     return (
       <div className="nav-bar-container">
-        <AppBar position="static">
+        <AppBar position="fixed">
           <Toolbar className="toolbar-container">
             <IconButton
               edge="start"
