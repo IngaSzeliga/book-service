@@ -2,6 +2,11 @@
   > div:nth-child(3) {
     > div:first-child {
       min-width: 70%;
+      @media only screen and (max-width: 576px) {
+        margin: 0;
+        min-height: 100vh;
+        min-width: 100vw;
+      }
     }
   }
   .author-details-name-header {
@@ -33,6 +38,10 @@
     padding-bottom: 20px;
     padding-right: 20px;
     padding-left: 20px;
+    @media only screen and (max-width: 576px) {
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
 
     .author-details-book {
       margin-left: 5px;
@@ -44,6 +53,9 @@
     }
     .author-details-book-title {
       width: 130px;
+      @media only screen and (max-width: 576px) {
+        margin-bottom: 30px;
+      }
     }
   }
 }
