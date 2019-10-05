@@ -32,7 +32,6 @@ class SearchBar extends PureComponent {
           <TextField
             className="search-select-component"
             select
-            defaultValue="Authors"
             value={selectSearch}
             onChange={this.handleChange}
             margin="normal"
