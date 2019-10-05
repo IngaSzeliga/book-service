@@ -49,7 +49,8 @@ const AddAuthor = props => {
     };
 
     axios.post("api/authors", authorData, config).then(response => {
-      handleClose();
+      const { handleAuthorSave } = props;
+      handleAuthorSave();
     });
   };
 

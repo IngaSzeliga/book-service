@@ -35,6 +35,10 @@ class NavBar extends PureComponent {
     this.setState({ isSuccess: true, isBookOpen: false });
   };
 
+  handleAuthorSave = () => {
+    this.setState({ isSuccess: true, isAuthorOpen: false });
+  };
+
   handleClickAuthorOpen = () => {
     this.setState({ isAuthorOpen: true });
   };
@@ -126,6 +130,7 @@ class NavBar extends PureComponent {
                 <AddAuthor
                   isOpen={isAuthorOpen}
                   handleClose={this.handleClickAuthorClose}
+                  handleAuthorSave={this.handleAuthorSave}
                   token={token}
                 />
                 <Button
