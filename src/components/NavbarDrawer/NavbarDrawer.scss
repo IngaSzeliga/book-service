@@ -1,0 +1,15 @@
+.drawer-main-container {
+  > div:first-child {
+    width: 240px;
+
+    .close-drawer-button {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
+.drawer-list-container {
+  .logout-item {
+    margin-top: 5px;
+  }
+}

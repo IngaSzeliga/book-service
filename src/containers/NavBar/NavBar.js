@@ -7,10 +7,19 @@ import Button from "@material-ui/core/Button";
 import AddAuthor from "../AddAuthor";
 import AddBook from "../AddBook";
 import ErrorSnackbar from "../../components/ErrorSnackbar";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import NavbarDrawer from "../../components/NavbarDrawer";
 import "./NavBar.scss";
 
 class NavBar extends PureComponent {
-  state = { isBookOpen: false, isAuthorOpen: false, token: "", error: "" };
+  state = {
+    isBookOpen: false,
+    isAuthorOpen: false,
+    isMenuOpen: false,
+    token: "",
+    error: ""
+  };
 
   handleClickBookOpen = () => {
     this.setState({ isBookOpen: true });
@@ -44,14 +53,49 @@ class NavBar extends PureComponent {
     this.setState({ error: "" });
   };
 
+  handleOpenMenu = () => {
+    this.setState({ isMenuOpen: true });
+  };
+
+  handleCloseMenu = () => {
+    this.setState({ isMenuOpen: false });
+  };
+
   render() {
-    const { isBookOpen, isAuthorOpen, token, error } = this.state;
+    const { isBookOpen, isAuthorOpen, isMenuOpen, token, error } = this.state;
 
     return (
       <div className="nav-bar-container">
         <AppBar position="static">
           <Toolbar className="toolbar-container">
-            <Typography variant="h2">Book Service</Typography>
+            <IconButton
+              edge="start"
+              className="hamburger-menu"
+              color="inherit"
+              aria-label="menu"
+              onClick={this.handleOpenMenu}
+            >
+              <MenuIcon />
+            </IconButton>
+            {isMenuOpen === true ? (
+              <NavbarDrawer
+                isMenuOpen={isMenuOpen}
+                isBookOpen={isBookOpen}
+                isAuthorOpen={isAuthorOpen}
+                token={token}
+                handleLogin={this.handleLogin}
+                handleLogout={this.handleLogout}
+                handleClickAuthorOpen={this.handleClickAuthorOpen}
+                handleClickBookOpen={this.handleClickBookOpen}
+                handleClickAuthorClose={this.handleClickAuthorClose}
+                handleClickBookClose={this.handleClickBookClose}
+                handleCloseMenu={this.handleCloseMenu}
+              />
+            ) : null}
+
+            <Typography variant="h2" className="navbar-title">
+              Book Service
+            </Typography>
 
             {token !== "" ? (
               <div>
@@ -79,12 +123,20 @@ class NavBar extends PureComponent {
                   handleClose={this.handleClickBookClose}
                   token={token}
                 />
-                <Button color="inherit" onClick={this.handleLogout}>
+                <Button
+                  color="inherit"
+                  onClick={this.handleLogout}
+                  className="navbar-logout-button"
+                >
                   Logout
                 </Button>
               </div>
             ) : (
-              <Button color="inherit" onClick={this.handleLogin}>
+              <Button
+                color="inherit"
+                onClick={this.handleLogin}
+                className="navbar-login-button"
+              >
                 Login
               </Button>
             )}

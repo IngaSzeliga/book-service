@@ -3,13 +3,43 @@
     display: flex;
     justify-content: space-between;
 
+    .navbar-title {
+      @media only screen and (max-width: 768px) {
+        font-size: 40px;
+      }
+    }
+
+    .hamburger-menu {
+      @media only screen and (min-width: 768px) {
+        display: none;
+      }
+    }
+
+    .navbar-login-button {
+      @media only screen and (max-width: 768px) {
+        display: none;
+      }
+    }
+
+    .navbar-logout-button {
+      @media only screen and (max-width: 768px) {
+        display: none;
+      }
+    }
+
     .add-author-button {
       margin-right: 10px;
+      @media only screen and (max-width: 768px) {
+        display: none;
+      }
     }
 
     .add-book-button {
       margin-left: 10px;
       margin-right: 40px;
+      @media only screen and (max-width: 768px) {
+        display: none;
+      }
     }
   }
 }
