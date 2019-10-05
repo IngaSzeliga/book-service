@@ -6,28 +6,35 @@ import AuthorsContainer from "../AuthorsContainer";
 import BooksContainer from "../BooksContainer";
 import { numberOfItemPerPage, mockTotal } from "../../config/constants";
 import PaginationBar from "../../components/PaginationBar";
+import ErrorPage from "../../components/ErrorPage";
 import "./App.scss";
 
 class App extends PureComponent {
-  state = { displayComponent: "authors", data: [], total: 0 };
+  state = { displayComponent: "authors", data: [], total: 0, isError: false };
 
   componentDidMount() {
     const { displayComponent } = this.state;
-    axios(`api/${displayComponent}?limit=${numberOfItemPerPage}`).then(
-      result => {
+    axios(`api/${displayComponent}?limit=${numberOfItemPerPage}`)
+      .then(result => {
         const { data } = result;
         this.setState({ data, total: mockTotal });
-      }
-    );
+      })
+      .catch(error => {
+        this.setState({ isError: true });
+      });
   }
 
   handleDisplayComponent = component => {
     this.setState({ displayComponent: component });
 
-    axios(`api/${component}?limit=${numberOfItemPerPage}`).then(result => {
-      const { data } = result;
-      this.setState({ data, total: mockTotal });
-    });
+    axios(`api/${component}?limit=${numberOfItemPerPage}`)
+      .then(result => {
+        const { data } = result;
+        this.setState({ data, total: mockTotal });
+      })
+      .catch(error => {
+        this.setState({ isError: true });
+      });
   };
 
   handleSearch = searchValue => {
@@ -52,7 +59,7 @@ class App extends PureComponent {
   };
 
   render() {
-    const { displayComponent, data, total } = this.state;
+    const { displayComponent, data, total, isError } = this.state;
     return (
       <div className="App">
         <NavBar />
@@ -65,7 +72,11 @@ class App extends PureComponent {
         ) : (
           <BooksContainer books={data} />
         )}
-        <PaginationBar changePage={this.changePage} total={total} />
+        {isError ? (
+          <ErrorPage />
+        ) : (
+          <PaginationBar changePage={this.changePage} total={total} />
+        )}
       </div>
     );
   }
