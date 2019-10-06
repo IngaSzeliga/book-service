@@ -1,0 +1,14 @@
+.add-author-header-container {
+  display: flex;
+  justify-content: space-between;
+
+  .add-author-close-and-title {
+    display: flex;
+    align-items: center;
+  }
+}
+.add-author-input-container {
+  .name-input {
+    margin-top: 65px;
+  }
+}

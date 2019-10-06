@@ -1,6 +1,5 @@
-import React from "react";
+import React, { PureComponent } from "react";
 import axios from "axios";
-import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import TextField from "@material-ui/core/TextField";
@@ -11,108 +10,135 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
-
-const useStyles = makeStyles(theme => ({
-  appBar: {
-    position: "relative"
-  },
-  title: {
-    marginLeft: theme.spacing(2),
-    flex: 1
-  }
-}));
+import { errorMessage } from "../../config/constants";
+import "./AddAuthor.scss";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const AddAuthor = props => {
-  const { isOpen, handleClose } = props;
-  const classes = useStyles();
+class AddAuthor extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.name = "";
+    this.image = "";
+  }
 
-  let name = "";
-  let image = "";
-
-  const handleNameInput = event => {
-    name = event.target.value;
+  state = {
+    nameError: "",
+    imageError: ""
   };
 
-  const handleImageInput = event => {
-    image = event.target.value;
+  handleNameInput = event => {
+    this.name = event.target.value;
   };
 
-  const handleSave = () => {
-    const authorData = { name: name, image: image };
-    const { token } = props;
+  handleImageInput = event => {
+    this.image = event.target.value;
+  };
+
+  handleSave = () => {
+    const authorData = { name: this.name, image: this.image };
+    const { token } = this.props;
     const config = {
       headers: { Authorization: token }
     };
 
-    axios
-      .post("api/authors", authorData, config)
-      .then(response => {
-        const { handleAuthorSave } = props;
-        handleAuthorSave();
-      })
-      .catch(error => {
-        const { handleOpenError } = props;
-        if (error.response.status === 401) {
-          const { handleLogout } = props;
-          handleClose();
-          handleLogout();
-          handleOpenError("Your session has expired.");
-        } else {
-          handleOpenError("Something went wrong.");
-        }
-      });
+    const stateError = {
+      nameError: "",
+      imageError: ""
+    };
+
+    let hasError = false;
+
+    if (this.name === "") {
+      stateError.nameError = errorMessage;
+      hasError = true;
+    }
+    if (this.image === "") {
+      stateError.imageError = errorMessage;
+      hasError = true;
+    }
+    if (hasError) {
+      this.setState(stateError);
+    } else {
+      axios
+        .post("api/authors", authorData, config)
+        .then(response => {
+          const { handleAuthorSave } = this.props;
+          handleAuthorSave();
+        })
+        .catch(error => {
+          const { handleOpenError } = this.props;
+          if (error.response.status === 401) {
+            const { handleLogout, handleClose } = this.props;
+            handleClose();
+            handleLogout();
+            handleOpenError("Your session has expired.");
+          } else {
+            handleOpenError("Something went wrong.");
+          }
+        });
+    }
   };
+  render() {
+    const { isOpen, handleClose } = this.props;
+    const { nameError, imageError } = this.state;
 
-  return (
-    <Dialog
-      fullScreen
-      open={isOpen}
-      onClose={handleClose}
-      TransitionComponent={Transition}
-    >
-      <AppBar className={classes.appBar}>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={handleClose}
-            aria-label="close"
-          >
-            <CloseIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Add new author
-          </Typography>
-          <Button color="inherit" onClick={handleSave}>
-            save
-          </Button>
-        </Toolbar>
-      </AppBar>
-      <DialogContent>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Name"
-          type="text"
-          fullWidth
-          onChange={handleNameInput}
-        />
-        <TextField
-          margin="dense"
-          id="image"
-          label="Image URL"
-          type="text"
-          fullWidth
-          onChange={handleImageInput}
-        />
-      </DialogContent>
-    </Dialog>
-  );
-};
+    return (
+      <Dialog
+        fullScreen
+        open={isOpen}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
+        <AppBar>
+          <Toolbar className="add-author-header-container">
+            <div className="add-author-close-and-title">
+              <IconButton
+                edge="start"
+                color="inherit"
+                onClick={handleClose}
+                aria-label="close"
+              >
+                <CloseIcon />
+              </IconButton>
+              <Typography variant="h6" className="add-author-header">
+                Add new author
+              </Typography>
+            </div>
+            <Button color="inherit" onClick={this.handleSave}>
+              save
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <DialogContent className="add-author-input-container">
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Name"
+            type="text"
+            error={nameError !== ""}
+            helperText={nameError}
+            fullWidth
+            onChange={this.handleNameInput}
+            className="name-input"
+          />
+          <TextField
+            margin="dense"
+            id="image"
+            label="Image URL"
+            type="text"
+            error={imageError !== ""}
+            helperText={imageError}
+            fullWidth
+            onChange={this.handleImageInput}
+          />
+        </DialogContent>
+      </Dialog>
+    );
+  }
+}
 
-export default React.memo(AddAuthor);
+export default AddAuthor;

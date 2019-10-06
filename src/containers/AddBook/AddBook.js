@@ -10,6 +10,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
+import { errorMessage } from "../../config/constants";
 import "./AddBook.scss";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -24,7 +25,12 @@ class AddBook extends PureComponent {
     this.description = "";
     this.image = "";
   }
-  state = { error: "" };
+  state = {
+    titleError: "",
+    authorError: "",
+    descriptionError: "",
+    imageError: ""
+  };
 
   handleTitleInput = event => {
     this.title = event.target.value;
@@ -54,29 +60,67 @@ class AddBook extends PureComponent {
       headers: { Authorization: token }
     };
 
-    axios
-      .post("api/books", bookData, config)
-      .then(response => {
-        const { handleBookSave } = this.props;
-        handleBookSave();
-      })
-      .catch(error => {
-        const { handleOpenError } = this.props;
-        if (error.response.status === 401) {
-          const { handleLogout, handleClose } = this.props;
-          handleClose();
-          handleLogout();
-          handleOpenError("Your session has expired.");
-        } else if (error.response.status === 400) {
-          this.setState({ error: "Author doesn't exist." });
-        } else {
-          handleOpenError("Something went wrong.");
-        }
-      });
+    const stateError = {
+      titleError: "",
+      authorError: "",
+      descriptionError: "",
+      imageError: ""
+    };
+    let hasError = false;
+
+    if (this.title === "") {
+      stateError.titleError = errorMessage;
+      hasError = true;
+    }
+    if (this.author === "") {
+      stateError.authorError = errorMessage;
+      hasError = true;
+    }
+    if (this.description === "") {
+      stateError.descriptionError = errorMessage;
+      hasError = true;
+    }
+    if (this.image === "") {
+      stateError.imageError = errorMessage;
+      hasError = true;
+    }
+    if (hasError) {
+      this.setState(stateError);
+    } else {
+      axios
+        .post("api/books", bookData, config)
+        .then(response => {
+          const { handleBookSave } = this.props;
+          handleBookSave();
+        })
+        .catch(error => {
+          const { handleOpenError } = this.props;
+          if (error.response.status === 401) {
+            const { handleLogout, handleClose } = this.props;
+            handleClose();
+            handleLogout();
+            handleOpenError("Your session has expired.");
+          } else if (error.response.status === 400) {
+            this.setState({
+              titleError: "",
+              authorError: "Author doesn't exist.",
+              descriptionError: "",
+              imageError: ""
+            });
+          } else {
+            handleOpenError("Something went wrong.");
+          }
+        });
+    }
   };
   render() {
     const { isOpen, handleClose } = this.props;
-    const { error } = this.state;
+    const {
+      titleError,
+      authorError,
+      descriptionError,
+      imageError
+    } = this.state;
 
     return (
       <Dialog
@@ -113,6 +157,8 @@ class AddBook extends PureComponent {
             id="name"
             label="Title"
             type="text"
+            error={titleError !== ""}
+            helperText={titleError}
             fullWidth
             onChange={this.handleTitleInput}
             className="title-input"
@@ -122,8 +168,8 @@ class AddBook extends PureComponent {
             id="name"
             label="Author"
             type="text"
-            error={error !== ""}
-            helperText={error}
+            error={authorError !== ""}
+            helperText={authorError}
             fullWidth
             onChange={this.handleAuthorInput}
           />
@@ -133,6 +179,8 @@ class AddBook extends PureComponent {
             multiline
             rows="4"
             margin="normal"
+            error={descriptionError !== ""}
+            helperText={descriptionError}
             fullWidth
             onChange={this.handleDescriptionInput}
           />
@@ -141,6 +189,8 @@ class AddBook extends PureComponent {
             id="image"
             label="Image URL"
             type="text"
+            error={imageError !== ""}
+            helperText={imageError}
             fullWidth
             onChange={this.handleImageInput}
           />
