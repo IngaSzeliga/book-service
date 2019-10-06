@@ -14,7 +14,8 @@ It's a simple book service application made with React16 using Material-UI styli
 ## How to use?
 
 1. Make sure that the backend is running
-2. In order to search - <b>press enter</b>
+2. Install the dependencies with `npm install`, then run the project with `npm start`
+3. In order to search - <b>press enter</b>
 
 ## Available Scripts
 
