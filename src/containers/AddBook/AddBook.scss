@@ -1,14 +1,16 @@
-.add-book-header-container {
-  display: flex;
-  justify-content: space-between;
-
-  .add-book-close-and-title {
+.add-book-main-container {
+  .add-book-header-container {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+
+    .add-book-close-and-title {
+      display: flex;
+      align-items: center;
+    }
   }
-}
-.add-book-input-container {
-  .title-input {
-    margin-top: 65px;
+  .add-book-input-container {
+    .title-input {
+      margin-top: 65px;
+    }
   }
 }

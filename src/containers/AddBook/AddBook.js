@@ -128,6 +128,7 @@ class AddBook extends PureComponent {
         open={isOpen}
         onClose={handleClose}
         TransitionComponent={Transition}
+        className="add-book-main-container"
       >
         <AppBar>
           <Toolbar className="add-book-header-container">

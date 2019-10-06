@@ -1,14 +1,16 @@
-.add-author-header-container {
-  display: flex;
-  justify-content: space-between;
-
-  .add-author-close-and-title {
+.add-author-main-container {
+  .add-author-header-container {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+
+    .add-author-close-and-title {
+      display: flex;
+      align-items: center;
+    }
   }
-}
-.add-author-input-container {
-  .name-input {
-    margin-top: 65px;
+  .add-author-input-container {
+    .name-input {
+      margin-top: 65px;
+    }
   }
 }

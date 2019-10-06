@@ -91,6 +91,7 @@ class AddAuthor extends PureComponent {
         open={isOpen}
         onClose={handleClose}
         TransitionComponent={Transition}
+        className="add-author-main-container"
       >
         <AppBar>
           <Toolbar className="add-author-header-container">
