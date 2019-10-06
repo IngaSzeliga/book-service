@@ -1,3 +1,6 @@
+$padding: 20px;
+$border: 1px solid rgba(0, 0, 0, 0.12);
+
 .book-details-container {
   > div:nth-child(3) {
     > div:first-child {
@@ -10,8 +13,8 @@
     }
   }
   .book-details-name-header {
-    padding-left: 20px;
-    padding-top: 20px;
+    padding-left: $padding;
+    padding-top: $padding;
     padding-bottom: 10px;
     display: flex;
     justify-content: space-between;
@@ -24,21 +27,21 @@
     }
   }
   .books-header {
-    padding-left: 20px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    padding-left: $padding;
+    padding-top: $padding;
+    border-top: $border;
   }
   .book-details-books-component {
     display: flex;
-    padding: 20px;
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    padding: $padding;
+    border-top: $border;
     @media only screen and (max-width: 576px) {
       display: block;
     }
 
     .book-details-image {
       height: 200px;
-      padding-right: 20px;
+      padding-right: $padding;
       @media only screen and (max-width: 576px) {
         margin-left: calc(50vw - 100px);
         padding: 0;
