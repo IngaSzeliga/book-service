@@ -11,7 +11,7 @@ const SuccessSnackbar = props => {
 
   return (
     <Snackbar
-      className="snackbar-container"
+      className="success-snackbar-container"
       anchorOrigin={{
         vertical: "bottom",
         horizontal: "left"
@@ -21,7 +21,7 @@ const SuccessSnackbar = props => {
       onClose={handleCloseSuccess}
     >
       <SnackbarContent
-        className="snackbar-content"
+        className="success-snackbar-content"
         aria-describedby="client-snackbar"
         message={
           <span id="client-snackbar" className="success-message">

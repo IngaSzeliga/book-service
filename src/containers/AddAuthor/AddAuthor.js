@@ -48,10 +48,23 @@ const AddAuthor = props => {
       headers: { Authorization: token }
     };
 
-    axios.post("api/authors", authorData, config).then(response => {
-      const { handleAuthorSave } = props;
-      handleAuthorSave();
-    });
+    axios
+      .post("api/authors", authorData, config)
+      .then(response => {
+        const { handleAuthorSave } = props;
+        handleAuthorSave();
+      })
+      .catch(error => {
+        const { handleOpenError } = props;
+        if (error.response.status === 401) {
+          const { handleLogout } = props;
+          handleClose();
+          handleLogout();
+          handleOpenError("Your session has expired.");
+        } else {
+          handleOpenError("Something went wrong.");
+        }
+      });
   };
 
   return (

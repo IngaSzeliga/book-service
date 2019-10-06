@@ -1,9 +1,9 @@
-.snackbar-container {
+.success-snackbar-container {
   > div:first-child {
     background-color: #43a047;
     display: flex;
   }
-  .snackbar-content {
+  .success-snackbar-content {
     display: inline-block;
 
     .success-message {

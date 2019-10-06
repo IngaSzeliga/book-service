@@ -59,6 +59,10 @@ class NavBar extends PureComponent {
     this.setState({ token: "" });
   };
 
+  handleOpenError = error => {
+    this.setState({ error, isSuccess: false });
+  };
+
   handleCloseError = () => {
     this.setState({ error: "" });
   };
@@ -131,6 +135,8 @@ class NavBar extends PureComponent {
                   isOpen={isAuthorOpen}
                   handleClose={this.handleClickAuthorClose}
                   handleAuthorSave={this.handleAuthorSave}
+                  handleOpenError={this.handleOpenError}
+                  handleLogout={this.handleLogout}
                   token={token}
                 />
                 <Button
@@ -144,6 +150,8 @@ class NavBar extends PureComponent {
                   isOpen={isBookOpen}
                   handleClose={this.handleClickBookClose}
                   handleBookSave={this.handleBookSave}
+                  handleOpenError={this.handleOpenError}
+                  handleLogout={this.handleLogout}
                   token={token}
                 />
                 <Button

@@ -11,7 +11,7 @@ const ErrorSnackbar = props => {
 
   return (
     <Snackbar
-      className="snackbar-container"
+      className="error-snackbar-container"
       anchorOrigin={{
         vertical: "bottom",
         horizontal: "left"
@@ -21,7 +21,7 @@ const ErrorSnackbar = props => {
       onClose={handleCloseError}
     >
       <SnackbarContent
-        className="snackbar-content"
+        className="error-snackbar-content"
         aria-describedby="client-snackbar"
         message={
           <span id="client-snackbar" className="error-message">

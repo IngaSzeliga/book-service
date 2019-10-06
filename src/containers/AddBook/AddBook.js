@@ -60,7 +60,19 @@ class AddBook extends PureComponent {
         const { handleBookSave } = this.props;
         handleBookSave();
       })
-      .catch(error => this.setState({ error: "Author doesn't exist" }));
+      .catch(error => {
+        const { handleOpenError } = this.props;
+        if (error.response.status === 401) {
+          const { handleLogout, handleClose } = this.props;
+          handleClose();
+          handleLogout();
+          handleOpenError("Your session has expired.");
+        } else if (error.response.status === 400) {
+          this.setState({ error: "Author doesn't exist." });
+        } else {
+          handleOpenError("Something went wrong.");
+        }
+      });
   };
   render() {
     const { isOpen, handleClose } = this.props;
