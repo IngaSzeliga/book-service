@@ -11,6 +11,11 @@ It's a simple book service application made with React16 using Material-UI styli
 - axios
 - node-sass
 
+## How to use?
+
+1. Make sure that the backend is running
+2. In order to search - <b>press enter</b>
+
 ## Available Scripts
 
 In the project directory, you can run:
